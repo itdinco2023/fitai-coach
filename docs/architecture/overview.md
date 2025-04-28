@@ -156,3 +156,94 @@
 - Interfață în română
 - Format dată/ora local
 - Support pentru RON 
+
+Structură GitHub Repository FitAI Coach
+fitai-coach/
+│
+├── .github/                        # Configurații GitHub
+│   ├── workflows/                  # GitHub Actions pentru CI/CD
+│   │   ├── deploy-functions.yml    # Workflow pentru deployarea Cloud Functions
+│   │   └── deploy-frontend.yml     # Workflow pentru deployarea Frontend
+│   └── ISSUE_TEMPLATE/             # Template-uri pentru issues
+│
+├── docs/                           # Documentație
+│   ├── architecture/               # Diagrame și documentație arhitectură
+│   ├── api/                        # Documentație API
+│   └── guides/                     # Ghiduri și tutoriale
+│
+├── firebase/                       # Configurări Firebase
+│   ├── firestore.rules             # Reguli securitate Firestore
+│   ├── storage.rules               # Reguli securitate Storage
+│   ├── database.rules.json         # Reguli Realtime Database
+│   └── firebase.json               # Configurație Firebase
+│
+├── functions/                      # Cloud Functions
+│   ├── src/
+│   │   ├── auth/                   # Funcții pentru autentificare și roluri
+│   │   ├── admin/                  # Funcții pentru administrare
+│   │   │   ├── equipment.js        # Gestionare echipamente
+│   │   │   ├── groups.js           # Gestionare grupe
+│   │   │   ├── subscriptions.js    # Gestionare abonamente
+│   │   │   └── attendance.js       # Gestionare prezențe și recuperări
+│   │   ├── ai/                     # Funcții AI
+│   │   │   ├── agents/             # Agenții LangChain
+│   │   │   │   ├── workout-agent/  # Agent pentru antrenamente
+│   │   │   │   ├── nutrition-agent/# Agent pentru nutriție
+│   │   │   │   └── medical-agent/  # Agent pentru evaluări medicale
+│   │   │   ├── workout-generator.js# Generare planuri antrenament
+│   │   │   ├── meal-planner.js     # Generare planuri nutriționale
+│   │   │   ├── food-analyzer.js    # Analiză fotografii mâncăruri
+│   │   │   └── chatbot.js          # Funcționalitate chatbot
+│   │   ├── user/                   # Funcții specifice utilizatorilor
+│   │   │   ├── profile.js          # Gestionare profil
+│   │   │   ├── progress.js         # Tracking progres
+│   │   │   └── absences.js         # Gestionare absențe
+│   │   └── notifications/          # Sistem notificări
+│   ├── package.json                # Dependințe Node.js
+│   └── index.js                    # Punct de intrare Cloud Functions
+│
+├── src/                            # Codul sursă frontend (React)
+│   ├── assets/                     # Resurse statice (imagini, fonturi)
+│   ├── components/                 # Componente React
+│   │   ├── common/                 # Componente comune
+│   │   ├── admin/                  # Componente pentru admin
+│   │   │   ├── Dashboard/          # Dashboard admin
+│   │   │   ├── Equipment/          # Gestionare echipamente
+│   │   │   ├── Groups/             # Gestionare grupe
+│   │   │   ├── Subscriptions/      # Gestionare abonamente
+│   │   │   └── Attendance/         # Gestionare prezențe și recuperări
+│   │   └── user/                   # Componente pentru utilizatori
+│   │       ├── Profile/            # Profil utilizator
+│   │       ├── Workout/            # Planuri antrenament
+│   │       ├── Nutrition/          # Planuri nutriționale
+│   │       ├── Progress/           # Tracking progres
+│   │       └── Absences/           # Gestionare absențe și recuperări
+│   ├── contexts/                   # Contexte React
+│   │   ├── AuthContext.js          # Context autentificare
+│   │   └── UserContext.js          # Context date utilizator
+│   ├── hooks/                      # Hooks personalizate
+│   │   ├── useFirestore.js         # Hook pentru interacțiuni Firestore
+│   │   └── useWorkout.js           # Hook pentru planuri antrenament
+│   ├── pages/                      # Pagini aplicație
+│   │   ├── auth/                   # Pagini autentificare
+│   │   ├── admin/                  # Pagini administrator
+│   │   └── user/                   # Pagini utilizator
+│   ├── services/                   # Servicii
+│   │   ├── firebase.js             # Configurare Firebase
+│   │   ├── api.js                  # Comunicare API
+│   │   └── storage.js              # Interacțiuni Firebase Storage
+│   ├── utils/                      # Utilități
+│   │   ├── format.js               # Formatare date
+│   │   └── validators.js           # Validare formulare
+│   ├── App.js                      # Componenta principală
+│   ├── index.js                    # Punct de intrare
+│   └── routes.js                   # Configurare rutare
+│
+├── public/                         # Fișiere publice
+│   ├── index.html                  # Template HTML
+│   └── favicon.ico                 # Favicon
+│
+├── .gitignore                      # Fișiere ignorate de Git
+├── README.md                       # Documentație proiect
+├── package.json                    # Dependințe proiect
+└── firebase.json                   # Configurații Firebase

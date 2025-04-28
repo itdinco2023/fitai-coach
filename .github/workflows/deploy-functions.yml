@@ -1,3 +1,5 @@
+# Workflow pentru deployarea Cloud Functions
+
 name: Deploy Cloud Functions
 
 on:

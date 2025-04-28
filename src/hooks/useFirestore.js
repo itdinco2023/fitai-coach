@@ -1,0 +1,1 @@
+// Hook pentru interacțiuni Firestore 

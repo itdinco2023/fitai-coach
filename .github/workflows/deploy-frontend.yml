@@ -1,3 +1,5 @@
+# Workflow pentru deployarea Frontend-ului
+
 name: Deploy Frontend
 
 on:
