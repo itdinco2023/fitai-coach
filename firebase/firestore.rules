@@ -1,0 +1,120 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Funcții helper
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isAdmin() {
+      return isAuthenticated() && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    function isUser(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    function hasSubscription(type) {
+      return isAuthenticated() && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.type == type;
+    }
+    
+    function isGroupMember(groupId) {
+      return isAuthenticated() && 
+        get(/databases/$(database)/documents/groups/$(groupId)).data.memberIds.hasAny([request.auth.uid]);
+    }
+    
+    // Reguli pentru colecția users
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin() || isUser(userId);
+      
+      // Subcolecții
+      match /profile/{document=**} {
+        allow read: if isAuthenticated();
+        allow write: if isAdmin() || isUser(userId);
+      }
+      
+      match /progress/{document=**} {
+        allow read: if isAuthenticated();
+        allow write: if isAdmin() || isUser(userId);
+      }
+      
+      match /subscription/{document=**} {
+        allow read: if isAuthenticated();
+        allow write: if isAdmin();
+      }
+      
+      match /group/{document=**} {
+        allow read: if isAuthenticated();
+        allow write: if isAdmin() || isUser(userId);
+      }
+      
+      match /nutrition/{document=**} {
+        allow read: if isAuthenticated();
+        allow write: if isAdmin() || isUser(userId);
+      }
+    }
+    
+    // Reguli pentru colecția gyms
+    match /gyms/{gymId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+      
+      match /equipment/{document=**} {
+        allow read: if isAuthenticated();
+        allow write: if isAdmin();
+      }
+      
+      match /settings/{document=**} {
+        allow read: if isAuthenticated();
+        allow write: if isAdmin();
+      }
+    }
+    
+    // Reguli pentru colecția groups
+    match /groups/{groupId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+      
+      match /schedule/{document=**} {
+        allow read: if isAuthenticated();
+        allow write: if isAdmin();
+      }
+      
+      match /members/{document=**} {
+        allow read: if isAuthenticated();
+        allow write: if isAdmin();
+      }
+    }
+    
+    // Reguli pentru colecția sessions
+    match /sessions/{sessionId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+      
+      match /attendance/{document=**} {
+        allow read: if isAuthenticated();
+        allow write: if isAdmin();
+      }
+      
+      match /recoveries/{document=**} {
+        allow read: if isAuthenticated();
+        allow write: if isAdmin();
+      }
+    }
+    
+    // Reguli pentru colecția exercises
+    match /exercises/{exerciseId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+    
+    // Reguli pentru colecția foods
+    match /foods/{foodId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+  }
+} 

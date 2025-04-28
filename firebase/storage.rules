@@ -1,0 +1,59 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Funcții helper
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isAdmin() {
+      return isAuthenticated() && 
+        firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    function isUser(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    function hasSubscription(type) {
+      return isAuthenticated() && 
+        firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.subscription.type == type;
+    }
+    
+    // Reguli pentru fișierele utilizatorilor
+    match /users/{userId}/{allPaths=**} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin() || isUser(userId);
+    }
+    
+    // Reguli pentru fișierele de antrenament
+    match /workouts/{allPaths=**} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+    
+    // Reguli pentru fișierele nutriționale
+    match /nutrition/{allPaths=**} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin() || hasSubscription('nutrition') || hasSubscription('complete');
+    }
+    
+    // Reguli pentru fișierele de progres
+    match /progress/{userId}/{allPaths=**} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin() || isUser(userId);
+    }
+    
+    // Reguli pentru fișierele de echipamente
+    match /equipment/{allPaths=**} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+    
+    // Reguli pentru fișierele de grupă
+    match /groups/{groupId}/{allPaths=**} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+  }
+} 

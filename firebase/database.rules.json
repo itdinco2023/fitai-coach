@@ -1,0 +1,80 @@
+{
+  "rules": {
+    ".read": "auth != null",
+    ".write": "auth != null",
+    
+    "workout_plans": {
+      "$userId": {
+        ".read": "auth != null && (auth.uid === $userId || root.child('users').child(auth.uid).child('role').val() === 'admin')",
+        ".write": "auth != null && (auth.uid === $userId || root.child('users').child(auth.uid).child('role').val() === 'admin')",
+        "$date": {
+          ".validate": "newData.hasChildren(['exercises'])",
+          "exercises": {
+            "$exerciseId": {
+              ".validate": "newData.hasChildren(['id', 'name', 'sets', 'reps', 'weight', 'rest', 'completed'])"
+            }
+          },
+          "notes": {
+            ".validate": "newData.isString()"
+          },
+          "status": {
+            ".validate": "newData.isString() && (newData.val() === 'planned' || newData.val() === 'completed' || newData.val() === 'missed')"
+          }
+        }
+      }
+    },
+    
+    "meal_plans": {
+      "$userId": {
+        ".read": "auth != null && (auth.uid === $userId || root.child('users').child(auth.uid).child('role').val() === 'admin')",
+        ".write": "auth != null && (auth.uid === $userId || root.child('users').child(auth.uid).child('role').val() === 'admin')",
+        "$date": {
+          ".validate": "newData.hasChildren(['meals'])",
+          "meals": {
+            "$mealId": {
+              ".validate": "newData.hasChildren(['type', 'foods', 'macros'])",
+              "type": {
+                ".validate": "newData.isString() && (newData.val() === 'breakfast' || newData.val() === 'lunch' || newData.val() === 'dinner' || newData.val() === 'snack')"
+              },
+              "foods": {
+                "$foodId": {
+                  ".validate": "newData.hasChildren(['id', 'name', 'quantity', 'unit'])"
+                }
+              },
+              "macros": {
+                ".validate": "newData.hasChildren(['calories', 'protein', 'carbs', 'fats'])"
+              }
+            }
+          },
+          "water": {
+            ".validate": "newData.isNumber()"
+          },
+          "notes": {
+            ".validate": "newData.isString()"
+          }
+        }
+      }
+    },
+    
+    "chats": {
+      "$userId": {
+        ".read": "auth != null && (auth.uid === $userId || root.child('users').child(auth.uid).child('role').val() === 'admin')",
+        ".write": "auth != null && (auth.uid === $userId || root.child('users').child(auth.uid).child('role').val() === 'admin')",
+        "messages": {
+          "$messageId": {
+            ".validate": "newData.hasChildren(['timestamp', 'sender', 'content'])",
+            "timestamp": {
+              ".validate": "newData.isNumber()"
+            },
+            "sender": {
+              ".validate": "newData.isString() && (newData.val() === 'user' || newData.val() === 'ai')"
+            },
+            "content": {
+              ".validate": "newData.isString()"
+            }
+          }
+        }
+      }
+    }
+  }
+} 
