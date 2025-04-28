@@ -40,4 +40,16 @@ yarn-error.log*
 # Cache
 .cache/
 .npm/
-.eslintcache 
+.eslintcache
+
+# Local development
+*.local
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Firebase emulators
+firebase-debug.log
+ui-debug.log
+firebase-debug.*.log 
