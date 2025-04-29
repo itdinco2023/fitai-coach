@@ -157,7 +157,11 @@
 - Format dată/ora local
 - Support pentru RON 
 
-Structură GitHub Repository FitAI Coach
+
+
+# Structură GitHub Repository FitAI Coach
+
+```
 fitai-coach/
 │
 ├── .github/                        # Configurații GitHub
@@ -247,3 +251,152 @@ fitai-coach/
 ├── README.md                       # Documentație proiect
 ├── package.json                    # Dependințe proiect
 └── firebase.json                   # Configurații Firebase
+```
+
+## Explicații și Recomandări
+
+### 1. Structură modulară
+
+Structura este organizată modular, separând clar:
+- Frontend (React)
+- Backend (Cloud Functions)
+- Configurări Firebase
+- Documentație
+
+### 2. Organizarea Cloud Functions
+
+Cloud Functions sunt grupate pe domenii funcționale:
+- `admin/` - Funcții pentru gestionarea sălii, echipamentelor, grupelor
+- `ai/` - Funcții pentru integrarea cu OpenAI și Claude API, inclusiv agenții LangChain
+- `user/` - Funcții specifice utilizatorilor obișnuiți
+
+### 3. Organizarea Frontend
+
+Componentele React sunt structurate pe tipuri de utilizatori:
+- `admin/` - Toate componentele pentru panoul de administrator
+- `user/` - Componentele pentru aplicația client
+- `common/` - Componente reutilizabile (butoane, formulare, etc.)
+
+### 4. Fluxul de Dezvoltare
+
+1. Începe cu setarea structurii de bază și configurația Firebase
+2. Implementează autentificarea și sistemul de roluri
+3. Dezvoltă funcționalitățile de bază pentru administrator
+4. Implementează modulele pentru utilizatori în ordinea priorității
+5. Integrează agenții AI pas cu pas
+
+### 5. Branch-uri Recomandate
+
+- `main` - Codul stabil, testat
+- `develop` - Integrarea feature-urilor
+- `feature/nume-feature` - Branch-uri pentru dezvoltarea feature-urilor individuale
+- `release/x.y.z` - Branch-uri pentru pregătirea release-urilor
+
+### 6. GitHub Actions
+
+Configurația GitHub Actions permite:
+- Deployment automat la Firebase după merge în `main`
+- Rularea testelor pentru fiecare Pull Request
+- Verificarea codului prin linting
+
+Această structură este optimizată pentru o echipă de dezvoltare care lucrează modular și pentru implementarea treptată a funcționalităților, începând cu MVP și adăugând treptat caracteristici avansate.
+# Lista Fișierelor pentru Proiectul FitAI Coach
+
+## Arhitectură și Planuri
+1. **Arhitectură FitAI Coach - Plan de Implementare** (generat în conversație)
+   - Structură detaliată a proiectului
+   - Plan pe faze de execuție
+   - Schema bazei de date
+   - Endpoint-uri Cloud Functions
+
+2. **Structură GitHub Repository FitAI Coach** (generat în conversație)
+   - Structura folder-ilor pentru repository
+   - Organizarea fișierelor pentru frontend și backend
+
+## Structura de Fișiere de Implementat
+
+### Frontend (React)
+1. **Configurare Firebase**
+   - `src/services/firebase.js` - Configurare și inițializare Firebase
+
+2. **Autentificare & Utilizatori**
+   - `src/contexts/AuthContext.js` - Context pentru starea de autentificare
+   - `src/pages/auth/Login.js` - Pagina de login
+   - `src/pages/auth/Register.js` - Pagina de înregistrare
+   - `src/components/user/Profile/ProfileForm.js` - Formular profil utilizator
+
+3. **Interfața Administrator**
+   - `src/pages/admin/Dashboard.js` - Dashboard principal admin
+   - `src/components/admin/Equipment/EquipmentManager.js` - Gestionare echipamente
+   - `src/components/admin/Groups/GroupManager.js` - Gestionare grupe
+   - `src/components/admin/Subscriptions/SubscriptionManager.js` - Gestionare abonamente
+   - `src/components/admin/Attendance/AttendanceTracker.js` - Tracking prezențe
+
+4. **Interfața Utilizator**
+   - `src/pages/user/Dashboard.js` - Dashboard utilizator
+   - `src/components/user/Workout/WorkoutPlan.js` - Vizualizare plan antrenament
+   - `src/components/user/Nutrition/MealPlan.js` - Vizualizare plan nutrițional
+   - `src/components/user/Progress/ProgressTracker.js` - Tracking progres
+   - `src/components/user/Absences/AbsenceForm.js` - Formular pentru absențe
+
+5. **Componente Comune**
+   - `src/components/common/Calendar.js` - Calendar pentru programare
+   - `src/components/common/Navigation.js` - Meniu navigare
+   - `src/components/common/ProtectedRoute.js` - Rutare bazată pe roluri
+
+### Backend (Cloud Functions)
+
+6. **Configurare Firebase**
+   - `firebase/firestore.rules` - Reguli de securitate Firestore
+   - `firebase/storage.rules` - Reguli de securitate Storage
+   - `firebase.json` - Configurații Firebase
+
+7. **Cloud Functions pentru Autentificare**
+   - `functions/src/auth/createUser.js` - Creare utilizator nou
+   - `functions/src/auth/setUserRole.js` - Setare roluri utilizator
+   - `functions/src/auth/setSubscriptionPermissions.js` - Permisiuni bazate pe abonament
+
+8. **Cloud Functions pentru Administrator**
+   - `functions/src/admin/equipment.js` - Gestionare echipamente
+   - `functions/src/admin/groups.js` - Gestionare grupe antrenament
+   - `functions/src/admin/subscriptions.js` - Gestionare abonamente
+   - `functions/src/admin/attendance.js` - Gestionare prezențe și recuperări
+
+9. **Cloud Functions pentru Utilizator**
+   - `functions/src/user/profile.js` - Gestionare profil
+   - `functions/src/user/progress.js` - Tracking progres
+   - `functions/src/user/absences.js` - Gestionare absențe
+
+10. **Cloud Functions pentru AI**
+    - `functions/src/ai/workout-generator.js` - Generare planuri antrenament
+    - `functions/src/ai/meal-planner.js` - Generare planuri nutriționale
+    - `functions/src/ai/food-analyzer.js` - Analiză fotografii mâncăruri
+    - `functions/src/ai/chatbot.js` - Funcționalitate chatbot
+
+11. **Agenți AI cu LangChain**
+    - `functions/src/ai/agents/workout-agent/index.js` - Agent pentru antrenamente
+    - `functions/src/ai/agents/nutrition-agent/index.js` - Agent pentru nutriție
+    - `functions/src/ai/agents/medical-agent/index.js` - Agent pentru evaluări medicale
+    - `functions/src/ai/agents/utils/prompts.js` - Template-uri de prompturi
+
+12. **Notificări**
+    - `functions/src/notifications/sms.js` - Trimitere notificări SMS
+    - `functions/src/notifications/subscriptionReminders.js` - Remindere abonamente
+
+### DevOps & Configurare
+
+13. **CI/CD**
+    - `.github/workflows/deploy-functions.yml` - Workflow pentru deployarea Cloud Functions
+    - `.github/workflows/deploy-frontend.yml` - Workflow pentru deployarea Frontend
+
+14. **Documentație**
+    - `docs/architecture/system-overview.md` - Privire de ansamblu asupra sistemului
+    - `docs/api/cloud-functions.md` - Documentație API Cloud Functions
+    - `docs/guides/development-setup.md` - Ghid configurare mediu de dezvoltare
+
+### Fișiere Generale
+
+15. **Configurare Proiect**
+    - `package.json` - Dependințe proiect
+    - `.gitignore` - Fișiere ignorate de Git
+    - `README.md` - Documentație generală proiect
